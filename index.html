@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leonardo G. Clarke — Astrophysics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE8DC;
+    --paper-2:#E3DCC8;
+    --navy:#101B30;
+    --navy-2:#182741;
+    --ink:#1B2432;
+    --ink-soft:#5A6270;
+    --gold:#BE7F2E;
+    --gold-soft:#D9A85B;
+    --teal:#3E6E6A;
+    --line:rgba(16,27,48,0.15);
+    --line-soft:rgba(237,232,220,0.18);
+    --radius:5px;
+    --max:1100px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--ink);
+  }
+
+  a{ color:inherit; }
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .kicker::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--gold);
+    display:inline-block;
+  }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(16,27,48,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:16px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .nav-mark{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--paper);
+    font-size:14px;
+    letter-spacing:0.08em;
+    border:1px solid var(--gold-soft);
+    padding:4px 9px;
+    border-radius:3px;
+  }
+  .nav-links{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    color:var(--paper);
+    font-size:14px;
+    letter-spacing:0.02em;
+    opacity:0.82;
+    transition:opacity 0.15s ease;
+  }
+  .nav-links a:hover{ opacity:1; color:var(--gold-soft); }
+
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:var(--navy);
+    color:var(--paper);
+    overflow:hidden;
+    padding:96px 0 88px;
+  }
+  .hero::before{
+    /* faint celestial-coordinate grid */
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse at 30% 30%, black 0%, transparent 70%);
+  }
+  .hero-inner{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:64px;
+    align-items:center;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    color:var(--paper);
+    font-size:clamp(40px, 5.4vw, 66px);
+    line-height:1.04;
+    margin-bottom:16px;
+  }
+  .hero h1 .blank{
+    border-bottom:2px dashed rgba(237,232,220,0.4);
+  }
+  .hero-sub{
+    font-size:18px;
+    color:rgba(237,232,220,0.82);
+    max-width:46ch;
+    margin-bottom:28px;
+  }
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:rgba(237,232,220,0.72);
+    margin-bottom:34px;
+  }
+  .hero-meta span b{
+    color:var(--gold-soft);
+    font-weight:500;
+  }
+  .cta-row{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 22px;
+    border-radius:var(--radius);
+    font-size:14px;
+    font-weight:500;
+    text-decoration:none;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-gold{
+    background:var(--gold);
+    color:var(--navy);
+  }
+  .btn-gold:hover{ background:var(--gold-soft); }
+  .btn-outline{
+    border-color:rgba(237,232,220,0.45);
+    color:var(--paper);
+  }
+  .btn-outline:hover{ border-color:var(--gold-soft); color:var(--gold-soft); }
+
+  /* ---------- finder-chart photo frame (signature element) ---------- */
+  .finder{
+    position:relative;
+    width:100%;
+    max-width:340px;
+    margin:0 auto;
+  }
+  .finder-frame{
+    position:relative;
+    aspect-ratio:1/1;
+    background:var(--navy-2);
+    border:1px solid rgba(237,232,220,0.25);
+    border-radius:3px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .finder-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .finder-placeholder{
+    text-align:center;
+    color:rgba(237,232,220,0.55);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    padding:24px;
+    line-height:1.7;
+  }
+  .finder-placeholder svg{ margin-bottom:10px; opacity:0.7; }
+  /* corner brackets */
+  .bracket{
+    position:absolute;
+    width:22px;
+    height:22px;
+    border:2px solid var(--gold-soft);
+  }
+  .bracket.tl{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .bracket.tr{ top:-1px; right:-1px; border-left:none; border-bottom:none; }
+  .bracket.bl{ bottom:-1px; left:-1px; border-right:none; border-top:none; }
+  .bracket.br{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .finder-caption{
+    margin-top:14px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    color:rgba(237,232,220,0.6);
+    text-transform:uppercase;
+  }
+
+  /* ---------- SECTION shared ---------- */
+  section{ padding:88px 0; }
+  .section-head{
+    max-width:640px;
+    margin-bottom:48px;
+  }
+  .section-head h2{
+    font-size:clamp(28px,3.4vw,38px);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{ background:var(--paper); border-bottom:1px solid var(--line); }
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  .bio-text p{
+    color:var(--ink);
+    margin:0 0 18px;
+    max-width:62ch;
+  }
+  .bio-text p.placeholder, .fill{
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:22px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    color:var(--ink-soft);
+    background:var(--paper-2);
+  }
+
+  .facts{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 28px;
+  }
+  .facts h3{
+    font-size:14px;
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--teal);
+    margin-bottom:18px;
+  }
+  .facts dl{ margin:0; }
+  .facts .row{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .facts .row:last-child{ border-bottom:none; }
+  .facts dt{ color:var(--ink-soft); }
+  .facts dd{ margin:0; font-weight:500; text-align:right; color:var(--ink); }
+
+  /* ---------- PUBLICATIONS ---------- */
+  .pubs{ background:var(--navy); color:var(--paper); }
+  .pubs .kicker{ color:var(--gold-soft); }
+  .pubs .kicker::before{ background:var(--teal); }
+  .pubs .section-head h2{ color:var(--paper); }
+  .pubs-intro{
+    color:rgba(237,232,220,0.75);
+    max-width:60ch;
+    margin-top:14px;
+  }
+  .pub-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin:44px 0 18px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .pub-sub:first-of-type{ margin-top:8px; }
+  .pub-list{ display:flex; flex-direction:column; gap:14px; }
+  .pub-card{
+    background:var(--navy-2);
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    transition:border-color 0.15s ease;
+    display:flex;
+    gap:18px;
+    align-items:flex-start;
+  }
+  .pub-card:hover{ border-color:var(--gold-soft); }
+  .pub-thumb{
+    flex-shrink:0;
+    width:96px;
+    height:96px;
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--line-soft);
+    background:var(--navy);
+  }
+  .pub-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .pub-body{ min-width:0; } /* keeps long titles from overflowing the flex row */
+  .pub-title{
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--paper);
+  }
+  .pub-authors{
+    font-size:14px;
+    color:rgba(237,232,220,0.75);
+    margin-bottom:8px;
+  }
+  .pub-authors b{ color:var(--gold-soft); font-weight:600; }
+  .pub-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:rgba(237,232,220,0.55);
+    margin-bottom:12px;
+  }
+  .pub-links{ display:flex; gap:10px; flex-wrap:wrap; }
+  .pub-links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    text-decoration:none;
+    color:var(--gold-soft);
+    border:1px solid rgba(217,168,91,0.4);
+    padding:5px 11px;
+    border-radius:20px;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .pub-links a:hover{ background:var(--gold-soft); color:var(--navy); }
+
+  .pubs-profiles{
+    margin-top:40px;
+    font-size:14px;
+    color:rgba(237,232,220,0.7);
+  }
+  .pubs-profiles a{
+    color:var(--gold-soft);
+    text-decoration:none;
+    border-bottom:1px dashed rgba(217,168,91,0.5);
+  }
+
+  /* ---------- CV ---------- */
+  .cv{
+    background:var(--paper);
+    text-align:center;
+  }
+  .cv-inner{ max-width:820px; margin:0 auto; }
+  .cv p{ color:var(--ink-soft); margin:16px 0 30px; }
+  .cv-note{
+    margin-top:16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .cv-viewer{
+    width:100%;
+    height:800px;
+    margin-top:32px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--paper-2);
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{
+    background:var(--navy);
+    color:var(--paper);
+    padding:64px 0 32px;
+  }
+  .footer-grid{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:32px;
+    padding-bottom:36px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  footer h3{
+    color:var(--paper);
+    font-size:22px;
+    margin-bottom:8px;
+  }
+  footer .footer-sub{
+    color:rgba(237,232,220,0.65);
+    font-size:14px;
+    max-width:36ch;
+  }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+  }
+  .contact-links a{
+    text-decoration:none;
+    color:rgba(237,232,220,0.85);
+    transition:color 0.15s ease;
+  }
+  .contact-links a:hover{ color:var(--gold-soft); }
+  .copyright{
+    margin-top:24px;
+    font-size:12px;
+    color:rgba(237,232,220,0.45);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    .hero-inner{ grid-template-columns:1fr; }
+    .finder{ max-width:240px; }
+    .about-grid{ grid-template-columns:1fr; }
+    .nav-links{ display:none; }
+    .footer-grid{ flex-direction:column; }
+  }
+  @media (max-width:520px){
+    .wrap{ padding:0 20px; }
+    section{ padding:64px 0; }
+    .hero{ padding:72px 0 64px; }
+    .cta-row{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <span class="nav-mark">LC</span>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="hero-eyebrow">Astrophysics · PhD Candidate</div>
+      <h1>Leonardo G. Clarke</h1>
+      <p class="hero-sub">
+        My main areas of interest are in observational galaxy formation and evolution. My research focuses on using spectroscopic observations 
+        of $z>1$ galaxies to better understand star formation and conditions in the ISM in the early Universe.
+
+        <br><br>I am currently going into my 6th year of the PhD program and am on the market for postdoc jobs in the 2026-2027 application cycle!
+      </p>
+      <div class="hero-meta">
+        <span>Dept: <b>UCLA Physics & Astronomy</b></span>
+        <span>Advisor: <b>Professor Alice Shapley</b></span>
+        <span>Based in: <b>Los Angeles, CA, USA</b></span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="#cv">Download CV</a>
+        <a class="btn btn-outline" href="#contact">Get in touch</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="finder">
+        <div class="finder-frame">
+          <img src="images/headshot.jpg" alt="Leonardo Clarke Headshot">
+          <!-- <div class="finder-placeholder">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="19" stroke="#D9A85B" stroke-width="1.2" stroke-dasharray="3 4"/>
+              <circle cx="20" cy="14" r="6" stroke="#D9A85B" stroke-width="1.2"/>
+              <path d="M8 33c1.5-7 6.5-11 12-11s10.5 4 12 11" stroke="#D9A85B" stroke-width="1.2"/>
+            </svg>
+            ADD YOUR<br>HEADSHOT HERE<br><span style="opacity:0.6">(square image, ~800×800px)</span>
+          </div> -->
+          <span class="bracket tl"></span>
+          <span class="bracket tr"></span>
+          <span class="bracket bl"></span>
+          <span class="bracket br"></span>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <div class="kicker">About</div>
+      <h2>Research & Leadership</h2>
+      <div class="bio-text" style="margin-top:22px;">
+        <p class="placeholder">
+          The central questions that drive my research are the following: How do the conditions in the ISM of galaxies evolve with cosmic time? How
+          do galaxies grow and assemble their stellar mass?
+          Spectroscopy is a powerful tool that probes the physics of the ISM and allows us to answer these fundamental questions. Especially with the advent
+          of JWST, our ability to probe the rest-optical features of galaxies in the distant Universe has vastly increased, enabling studies of
+          star formation, metallicities, dust, and chemical abundance patterns across populations in the early Universe. My work aims to help
+          characterize the growth and establish the properties of typical star-forming galaxies at high redshift.
+        </p>
+        <p class="placeholder">
+          I collaborate with several research groups and survey teams, including AURORA (PI: Shapley, Co-PI: Sanders), OutThere (PI: Glazebrook), NEXUS (PI: Zhuang), 
+          and OMEGA (PI: Roberts-Borsani). I have also served as organizer and co-organizer for the 2024, 2025, and 2026 editions of the 
+          <a href="https://sierra.physics.ucla.edu/" target="_blank" rel="noopener noreferrer">Sierra Conference</a>, a graduate student conference
+          sponsored by UC Observatories that brings together astrophysics graduate students across the UC system to network while camping!
+        </p>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Galaxy Evolution</span>
+        <span class="tag">Spectroscopy</span>
+        <span class="tag">Interstellar Medium (ISM)</span>
+        <span class="tag">Star Formation</span>
+      </div>
+    </div>
+
+    <div class="facts reveal">
+      <h3>Quick Info</h3>
+      <dl>
+        <div class="row"><dt>Institution</dt><dd>University of California, Los Angeles</dd></div>
+        <div class="row"><dt>Program</dt><dd>PhD in Astrophysics</dd></div>
+        <div class="row"><dt>Expected graduation</dt><dd>June, 2027</dd></div>
+        <div class="row"><dt>Advisor</dt><dd>Prof. Alice Shapley</dd></div>
+        <div class="row"><dt>Research area</dt><dd>Galaxy Formation and Evolution (Observational)</dd></div>
+        <div class="row"><dt>Email</dt><dd>leoclarke@astro.ucla.edu</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section class="pubs" id="publications">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Publications</div>
+      <h2>Papers &amp; Preprints</h2>
+      <!-- <p class="pubs-intro">
+        A full, continuously updated list is available on my
+        <span class="fill">ADS</span> and <span class="fill">Google Scholar</span> profiles (links below).
+        Selected work is listed here, grouped by role.
+      </p> -->
+    </div>
+
+    <!-- FIRST AUTHOR -->
+    <div class="pub-sub reveal">Significant publications</div>
+    <div class="pub-list reveal">
+      
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/bpt_diagram_presentation_6.png" alt="BPT diagram from emission-line paper">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">Emission-line Diagnostics at $z \sim 2$: A Probe of the Ionizing Spectrum and $\alpha$ Enhancement Beyond Cosmic Noon</div>
+          <div class="pub-authors"><b>Clarke, L.</b>, Lam, N., Shapley, A., et al.</div>
+          <div class="pub-meta">ApJL, Vol. 1002, 2026 · arXiv:2601.11092</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2601.11092" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2026ApJ..1002L..15C/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2026ApJ..1002L..15C/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+            <a href="https://iopscience.iop.org/article/10.3847/2041-8213/ae57a6" target="_blank" rel="noopener noreferrer">ApJL</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/jades_fmr.png" alt="FMR in JADES">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">The JADES Mass-Metallicity and Fundamental Metallicity Relations at $z\gtrsim 2$ Using New High-Redshift Metallicity Calibrations</div>
+          <div class="pub-authors">Lam, N., <b>Clarke, L.</b>, Shapley, A., et al.</div>
+          <div class="pub-meta">2026 · arXiv:2605.30513</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2605.30513" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2026arXiv260530513L/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2026arXiv260530513L/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/ebv_gas_vs_star.png" alt="EBV gas vs EBV star">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">Balmer Decrements and Nebular-Stellar Reddening in JADES Galaxies at $2.7 < z < 7$</div>
+          <div class="pub-authors">Karthikeyan, S., <b>Clarke, L.</b>, Shapley, A., et al.</div>
+          <div class="pub-meta">2026 · arXiv:2603.11338</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2603.11338" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2026arXiv260311338K/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2026arXiv260311338K/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/JADES_DR3_nebular_sfms_fit_complete_presentation_4.png" alt="JADES SFMS low-z bin">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">The Star-forming Main Sequence and Bursty Star-formation Histories at $z>1.4$ in JADES and AURORA</div>
+          <div class="pub-authors"><b>Clarke, L.</b>, Shapley, A., Lam, N., et al.</div>
+          <div class="pub-meta">2025 · arXiv:2510.06681</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2510.06681" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2025arXiv251006681C/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2025arXiv251006681C/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/MS_fit_Ha_pres_2.png" alt="JADES CEERS SFMS">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">The Star-forming Main Sequence in JADES and CEERS at $z > 1.4$: Investigating the Burstiness of Star Formation</div>
+          <div class="pub-authors"><b>Clarke, L.</b>, Shapley, A., Sanders, R., et al.</div>
+          <div class="pub-meta">ApJ, Vol. 977, 2024 · arXiv:2406.05178</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2406.05178" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2024ApJ...977..133C/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2024ApJ...977..133C/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+            <a href="https://iopscience.iop.org/article/10.3847/1538-4357/ad8ba4" target="_blank" rel="noopener noreferrer">ApJ</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/keck_oiii4363.jpg" alt="[O III] 4363 detections with Keck/MOSFIRE">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">Ultra-deep Keck/MOSFIRE Spectroscopic Observations of $z\sim 2$ Galaxies: Direct Oxygen Abundances and Nebular Excitation Properties</div>
+          <div class="pub-authors"><b>Clarke, L.</b>, Shapley, A., Sanders, R., et al.</div>
+          <div class="pub-meta">ApJ, Vol. 957, 2023 · arXiv:2305.07781</div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2305.07781" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2023ApJ...957...81C/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2023ApJ...957...81C/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+            <a href="https://iopscience.iop.org/article/10.3847/1538-4357/acfedb" target="_blank" rel="noopener noreferrer">ApJ</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="images/green_pea_filters.jpg" alt="HST filters over Green Pea spectrum">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title">An Old Stellar Population or Diffuse Nebular Continuum Emission Discovered in Green Pea Galaxies</div>
+          <div class="pub-authors"><b>Clarke, L.</b>, Scarlata, C., Mehta, V., et al.</div>
+          <div class="pub-meta">ApJL, Vol. 912, 2021 · arXiv:2012.07668 </div>
+          <div class="pub-links">
+            <a href="https://arxiv.org/abs/2012.07668" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="https://scixplorer.org/abs/2021ApJ...912L..22C/abstract" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="https://ui.adsabs.harvard.edu/abs/2021ApJ...912L..22C/abstract" target="_blank" rel="noopener noreferrer">ADS</a>
+            <a href="https://iopscience.iop.org/article/10.3847/2041-8213/abf7cc" target="_blank" rel="noopener noreferrer">ApJL</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="pub-card">
+        <div class="pub-thumb">
+          <img src="" alt="">
+        </div>
+        <div class="pub-body">
+          <div class="pub-title"></div>
+          <div class="pub-authors"><b>Clarke, L.</b></div>
+          <div class="pub-meta"></div>
+          <div class="pub-links">
+            <a href="" target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="" target="_blank" rel="noopener noreferrer">SciX</a>
+            <a href="" target="_blank" rel="noopener noreferrer">ADS</a>
+            <a href="" target="_blank" rel="noopener noreferrer">ApJ</a>
+          </div>
+        </div>
+      </div> -->
+
+
+    </div>
+
+    <!-- CONTRIBUTING AUTHOR -->
+    <!-- <div class="pub-sub reveal">Co-authored / contributing publications</div>
+    <div class="pub-list reveal">
+      <div class="pub-card">
+        <div class="pub-title">[Title of co-authored paper #1]</div>
+        <div class="pub-authors">[Lead Author, D.], [Coauthor, E.], <b>[Your Last Name], A.</b>, [et al.]</div>
+        <div class="pub-meta">[Journal Name], Vol. [XX], [Year] · arXiv:[XXXX.XXXXX]</div>
+        <div class="pub-links">
+          <a href="#">arXiv</a>
+          <a href="#">ADS</a>
+          <a href="#">DOI</a>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-title">[Title of co-authored paper #2]</div>
+        <div class="pub-authors">[Lead Author, F.], <b>[Your Last Name], A.</b>, [et al.]</div>
+        <div class="pub-meta">[Journal Name], Vol. [XX], [Year] · arXiv:[XXXX.XXXXX]</div>
+        <div class="pub-links">
+          <a href="#">arXiv</a>
+          <a href="#">ADS</a>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="pubs-profiles reveal">
+      Full list on <a href="https://scixplorer.org/search?d=astrophysics&fq=%7B%21type%3Daqp+v%3D%24fq_database%7D&fq_database=(database%3A%22astronomy%22)&p=1&q=first_author%3A%22Clarke%2C+Leonardo%22&sort=score+desc&sort=date+desc">SciX Library →</a> &nbsp;·&nbsp; <a href="https://orcid.org/0000-0003-1249-6392" target="_blank" rel="noopener noreferrer">ORCID →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CV ============ -->
+<section class="cv" id="cv">
+  <div class="wrap cv-inner reveal">
+    <div class="kicker" style="justify-content:center;">Curriculum Vitae</div>
+    <h2>My CV</h2>
+    <a class="btn btn-gold" href="linked_files/Clarke_CV.pdf" download>Download CV (PDF)</a>
+
+    <iframe class="cv-viewer" src="linked_files/Clarke_CV.pdf#toolbar=0&navpanes=0&scrollbar=0" title="Leonardo Clarke — CV"></iframe>
+
+    <div class="cv-note">Leonardo Clarke CV - Updated August 12, 2026</div>
+  </div>
+</section>
+
+<!-- ============ CONTACT / FOOTER ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>Let's talk</h3>
+        <p class="footer-sub">
+          Open to conversations about postdoc opportunities, collaborations, and anything
+          galaxy-evolution related.
+        </p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:leoclarke@astro.ucla.edu">leoclarke@astro.ucla.edu</a>
+        <a href="https://scixplorer.org/search?d=astrophysics&fq=%7B%21type%3Daqp+v%3D%24fq_database%7D&fq_database=(database%3A%22astronomy%22)&p=1&q=first_author%3A%22Clarke%2C+Leonardo%22&sort=score+desc&sort=date+desc" target="_blank" rel="noopener noreferrer">SciX Library →</a>
+        <a href="https://orcid.org/0000-0003-1249-6392" target="_blank" rel="noopener noreferrer">ORCID →</a>
+        <a href="https://github.com/leonardo-clarke" target="_blank" rel="noopener noreferrer">GitHub →</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>© <span id="year"></span> Leonardo Clarke</span>
+      <!-- <span>Built with care for the postdoc application season.</span> -->
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // simple scroll-reveal
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  items.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
